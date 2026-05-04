@@ -53,11 +53,27 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Auto-migrate on startup
+// Auto-migrate on startup — retry loop handles Render cold-start DB delay
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate();
+    var db     = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<AppDbContext>>();
+    var retries = 0;
+    while (true)
+    {
+        try
+        {
+            db.Database.Migrate();
+            logger.LogInformation("Database migration applied successfully.");
+            break;
+        }
+        catch (Exception ex) when (retries < 5)
+        {
+            retries++;
+            logger.LogWarning("Migration attempt {Retry} failed: {Message}. Retrying in 3s…", retries, ex.Message);
+            Thread.Sleep(3000);
+        }
+    }
 }
 
 if (app.Environment.IsDevelopment())
@@ -109,5 +125,5 @@ static string ToNpgsqlConnectionString(string input)
     var username = Uri.UnescapeDataString(userInfo[0]);
     var password = userInfo.Length > 1 ? Uri.UnescapeDataString(userInfo[1]) : string.Empty;
 
-    return $"Host={host};Port={port};Database={database};Username={username};Password={password};SSL Mode=Require;Trust Server Certificate=true";
+    return $"Host={host};Port={port};Database={database};Username={username};Password={password};SSL Mode=Prefer;Trust Server Certificate=true";
 }
