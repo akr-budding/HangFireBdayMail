@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: empbirthday
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /api/employees
+    envVars:
+      # Render auto-injects the PostgreSQL connection string
+      - key: ConnectionStrings__DefaultConnection
+        fromDatabase:
+          name: empbirthday-db
+          property: connectionString
+
+      # Set these manually in Render dashboard → Environment
+      - key: EmailSettings__SenderEmail
+        sync: false
+      - key: EmailSettings__SenderPassword
+        sync: false
+      - key: EmailSettings__SenderName
+        value: EmpBirthday
+
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+
+databases:
+  - name: empbirthday-db
+    plan: free
+    databaseName: hangfire_db
+    user: empbirthday
