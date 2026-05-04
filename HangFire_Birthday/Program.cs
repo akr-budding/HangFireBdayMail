@@ -9,7 +9,12 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
+// ── Connection string ─────────────────────────────────────────────────────────
+// Render gives DATABASE_URL as  postgresql://user:pass@host:port/db
+// Npgsql EF Core needs ADO.NET format: Host=...;Port=...;Database=...
+// This helper converts both transparently.
+var rawConn = builder.Configuration.GetConnectionString("DefaultConnection")!;
+var connectionString = ToNpgsqlConnectionString(rawConn);
 
 // EF Core — PostgreSQL
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -80,6 +85,29 @@ app.MapFallbackToFile("index.html");
 
 HangfireConfig.RegisterRecurringJobs();
 
-// Render provides PORT env var — use it in production
+// Render injects PORT at runtime
 var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
 app.Run($"http://0.0.0.0:{port}");
+
+
+// ── Helper: convert postgresql:// URL → ADO.NET connection string ─────────────
+static string ToNpgsqlConnectionString(string input)
+{
+    if (string.IsNullOrWhiteSpace(input)) return input;
+
+    // Already ADO.NET format — pass through
+    if (!input.StartsWith("postgres://") && !input.StartsWith("postgresql://"))
+        return input;
+
+    // Parse URI  e.g. postgresql://user:pass@host:5432/dbname?sslmode=require
+    var uri = new Uri(input);
+
+    var host     = uri.Host;
+    var port     = uri.Port > 0 ? uri.Port : 5432;
+    var database = uri.AbsolutePath.TrimStart('/');
+    var userInfo = uri.UserInfo.Split(':', 2);
+    var username = Uri.UnescapeDataString(userInfo[0]);
+    var password = userInfo.Length > 1 ? Uri.UnescapeDataString(userInfo[1]) : string.Empty;
+
+    return $"Host={host};Port={port};Database={database};Username={username};Password={password};SSL Mode=Require;Trust Server Certificate=true";
+}
