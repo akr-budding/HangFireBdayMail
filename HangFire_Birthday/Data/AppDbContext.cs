@@ -64,6 +64,17 @@ namespace HangFire_Birthday.Data
                     JoiningDate = new DateTime(2023, 7, 20, 0, 0, 0, DateTimeKind.Utc),
                     Department = "Sales",
                     IsActive = false
+                },
+                // Test employee — birthday today (May 4) so birthday job can be verified
+                new Employee
+                {
+                    Id = 6,
+                    Name = "Test User",
+                    Email = "ashwini.kr.ranjan98@gmail.com",
+                    DateOfBirth = new DateTime(1993, 5, 4, 0, 0, 0, DateTimeKind.Utc),
+                    JoiningDate = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                    Department = "Engineering",
+                    IsActive = true
                 }
             );
         }

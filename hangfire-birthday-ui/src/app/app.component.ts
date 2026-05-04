@@ -32,7 +32,7 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
         </nav>
 
         <div class="sidebar-footer">
-          <a href="http://localhost:5000/hangfire" target="_blank" class="hangfire-link">
+          <a href="/hangfire" target="_blank" class="hangfire-link">
             <span>🔧</span>
             <span>Hangfire Dashboard</span>
             <span class="ext-icon">↗</span>

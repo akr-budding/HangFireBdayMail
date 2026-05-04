@@ -22,7 +22,7 @@ interface Toast { type: 'success' | 'error'; message: string; }
           <strong>Hangfire is running!</strong>
           Monitor job execution at
           <a href="/hangfire" target="_blank" style="color:#6c63ff;font-weight:600;">
-            localhost:5000/hangfire ↗
+            /hangfire ↗
           </a>
         </div>
       </div>
@@ -78,7 +78,7 @@ interface Toast { type: 'success' | 'error'; message: string; }
             <div class="step-num">2</div>
             <div>
               <strong>Job Executes</strong>
-              <p>Hangfire picks up the job from SQL Server and runs it in a background worker thread</p>
+              <p>Hangfire picks up the job from PostgreSQL and runs it in a background worker thread</p>
             </div>
           </div>
           <div class="step">

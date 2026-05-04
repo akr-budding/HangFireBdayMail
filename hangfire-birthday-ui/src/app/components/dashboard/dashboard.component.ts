@@ -94,7 +94,7 @@ import { EmployeeStats } from '../../models/employee.model';
             Monitor birthday job execution, view history, and retry failed jobs in real-time.
           </p>
           <div class="hangfire-url">
-            <code>http://localhost:5000/hangfire</code>  <!-- or just /hangfire when published -->
+            <code>/hangfire</code>
           </div>
           <a href="/hangfire" target="_blank" class="btn btn-primary" style="margin-top:16px;">
             Open Hangfire Dashboard ↗
