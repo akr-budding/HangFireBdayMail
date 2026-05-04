@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HangFire_Birthday.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260504172444_InitialCreate")]
+    [Migration("20260504180440_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -34,7 +34,7 @@ namespace HangFire_Birthday.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Department")
                         .IsRequired()
@@ -48,7 +48,7 @@ namespace HangFire_Birthday.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<DateTime>("JoiningDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -62,51 +62,51 @@ namespace HangFire_Birthday.Migrations
                         new
                         {
                             Id = 1,
-                            DateOfBirth = new DateTime(1990, 5, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateOfBirth = new DateTime(1990, 5, 3, 0, 0, 0, 0, DateTimeKind.Utc),
                             Department = "Engineering",
                             Email = "alice@example.com",
                             IsActive = true,
-                            JoiningDate = new DateTime(2019, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            JoiningDate = new DateTime(2019, 3, 15, 0, 0, 0, 0, DateTimeKind.Utc),
                             Name = "Alice Johnson"
                         },
                         new
                         {
                             Id = 2,
-                            DateOfBirth = new DateTime(1985, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateOfBirth = new DateTime(1985, 6, 20, 0, 0, 0, 0, DateTimeKind.Utc),
                             Department = "Marketing",
                             Email = "bob@example.com",
                             IsActive = true,
-                            JoiningDate = new DateTime(2021, 5, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            JoiningDate = new DateTime(2021, 5, 3, 0, 0, 0, 0, DateTimeKind.Utc),
                             Name = "Bob Smith"
                         },
                         new
                         {
                             Id = 3,
-                            DateOfBirth = new DateTime(1992, 8, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateOfBirth = new DateTime(1992, 8, 14, 0, 0, 0, 0, DateTimeKind.Utc),
                             Department = "HR",
                             Email = "carol@example.com",
                             IsActive = true,
-                            JoiningDate = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            JoiningDate = new DateTime(2022, 9, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Name = "Carol White"
                         },
                         new
                         {
                             Id = 4,
-                            DateOfBirth = new DateTime(1988, 11, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateOfBirth = new DateTime(1988, 11, 25, 0, 0, 0, 0, DateTimeKind.Utc),
                             Department = "Finance",
                             Email = "david@example.com",
                             IsActive = true,
-                            JoiningDate = new DateTime(2020, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            JoiningDate = new DateTime(2020, 4, 10, 0, 0, 0, 0, DateTimeKind.Utc),
                             Name = "David Brown"
                         },
                         new
                         {
                             Id = 5,
-                            DateOfBirth = new DateTime(1995, 12, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateOfBirth = new DateTime(1995, 12, 5, 0, 0, 0, 0, DateTimeKind.Utc),
                             Department = "Sales",
                             Email = "eva@example.com",
                             IsActive = false,
-                            JoiningDate = new DateTime(2023, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            JoiningDate = new DateTime(2023, 7, 20, 0, 0, 0, 0, DateTimeKind.Utc),
                             Name = "Eva Martinez"
                         });
                 });

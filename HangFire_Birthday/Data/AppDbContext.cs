@@ -13,18 +13,15 @@ namespace HangFire_Birthday.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Seed data:
-            //   Employee 1 — birthday is May 3 (matches today) → triggers BirthdayMailJob
-            //   Employee 2 — joining date is May 3, 2021 (matches today's month/day) → triggers WorkAnniversaryJob
-            //   Employees 3–5 — future/random dates
+            // All DateTime values use DateTimeKind.Utc — required by Npgsql v6+
             modelBuilder.Entity<Employee>().HasData(
                 new Employee
                 {
                     Id = 1,
                     Name = "Alice Johnson",
                     Email = "alice@example.com",
-                    DateOfBirth = new DateTime(1990, 5, 3),    // Birthday today (May 3)
-                    JoiningDate = new DateTime(2019, 3, 15),
+                    DateOfBirth = new DateTime(1990, 5, 3, 0, 0, 0, DateTimeKind.Utc),
+                    JoiningDate = new DateTime(2019, 3, 15, 0, 0, 0, DateTimeKind.Utc),
                     Department = "Engineering",
                     IsActive = true
                 },
@@ -33,8 +30,8 @@ namespace HangFire_Birthday.Data
                     Id = 2,
                     Name = "Bob Smith",
                     Email = "bob@example.com",
-                    DateOfBirth = new DateTime(1985, 6, 20),
-                    JoiningDate = new DateTime(2021, 5, 3),    // Anniversary today (May 3) — 4 years!
+                    DateOfBirth = new DateTime(1985, 6, 20, 0, 0, 0, DateTimeKind.Utc),
+                    JoiningDate = new DateTime(2021, 5, 3, 0, 0, 0, DateTimeKind.Utc),
                     Department = "Marketing",
                     IsActive = true
                 },
@@ -43,8 +40,8 @@ namespace HangFire_Birthday.Data
                     Id = 3,
                     Name = "Carol White",
                     Email = "carol@example.com",
-                    DateOfBirth = new DateTime(1992, 8, 14),
-                    JoiningDate = new DateTime(2022, 9, 1),
+                    DateOfBirth = new DateTime(1992, 8, 14, 0, 0, 0, DateTimeKind.Utc),
+                    JoiningDate = new DateTime(2022, 9, 1, 0, 0, 0, DateTimeKind.Utc),
                     Department = "HR",
                     IsActive = true
                 },
@@ -53,8 +50,8 @@ namespace HangFire_Birthday.Data
                     Id = 4,
                     Name = "David Brown",
                     Email = "david@example.com",
-                    DateOfBirth = new DateTime(1988, 11, 25),
-                    JoiningDate = new DateTime(2020, 4, 10),
+                    DateOfBirth = new DateTime(1988, 11, 25, 0, 0, 0, DateTimeKind.Utc),
+                    JoiningDate = new DateTime(2020, 4, 10, 0, 0, 0, DateTimeKind.Utc),
                     Department = "Finance",
                     IsActive = true
                 },
@@ -63,8 +60,8 @@ namespace HangFire_Birthday.Data
                     Id = 5,
                     Name = "Eva Martinez",
                     Email = "eva@example.com",
-                    DateOfBirth = new DateTime(1995, 12, 5),
-                    JoiningDate = new DateTime(2023, 7, 20),
+                    DateOfBirth = new DateTime(1995, 12, 5, 0, 0, 0, DateTimeKind.Utc),
+                    JoiningDate = new DateTime(2023, 7, 20, 0, 0, 0, DateTimeKind.Utc),
                     Department = "Sales",
                     IsActive = false
                 }

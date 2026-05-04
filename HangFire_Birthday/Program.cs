@@ -7,6 +7,9 @@ using HangFire_Birthday.Models;
 using HangFire_Birthday.Services;
 using Microsoft.EntityFrameworkCore;
 
+// Npgsql v6+ requires UTC DateTimes — this switch enables legacy unspecified behaviour
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 var builder = WebApplication.CreateBuilder(args);
 
 // ── Connection string ─────────────────────────────────────────────────────────
