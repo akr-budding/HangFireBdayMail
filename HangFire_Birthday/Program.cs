@@ -87,14 +87,16 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("AllowAngular");
 
+// Hangfire dashboard — must be registered BEFORE static files so the Angular
+// catch-all (MapFallbackToFile) cannot intercept the /hangfire route.
+app.UseHangfireDashboard("/hangfire", new DashboardOptions
+{
+    Authorization = new[] { new HangFire_Birthday.Config.AllowAllDashboardFilter() }
+});
+
 // Serve Angular from wwwroot
 app.UseDefaultFiles();
 app.UseStaticFiles();
-
-app.UseHangfireDashboard("/hangfire", new DashboardOptions
-{
-    Authorization = new[] { new Hangfire.Dashboard.LocalRequestsOnlyAuthorizationFilter() }
-});
 
 app.UseAuthorization();
 app.MapControllers();
